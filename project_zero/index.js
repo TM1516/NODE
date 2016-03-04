@@ -11,7 +11,12 @@ app.use(express.static(path.join(__dirname,'html')));
 
 var io = socketio.listen(server);
 
+var clientID = 0;
+
+
 io.on('connection', function (socket) {
+	clientID++;
+	socket.emit("logInfo", {"id":clientID})
 	console.log('ligou-se um cliente');
 });
 

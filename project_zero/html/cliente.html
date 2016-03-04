@@ -8,9 +8,13 @@
 
   </head>
   <body>
-    <h1>eu sou o cliente</h1>
+    <h1 id="idclient">eu sou o cliente</h1>
   </body>
   <script type="text/javascript">
     var socket = io.connect();
+    socket.on("logInfo", function (data) {
+      document.getElementById("idclient").innerHTML += " " + data.id;
+    })
+
   </script>
 </html>
