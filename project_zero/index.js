@@ -16,9 +16,16 @@ var clientID = 0;
 
 io.on('connection', function (socket) {
 	clientID++;
-	socket.emit("logInfo", {"id":clientID})
+	var myID = clientID;
+	socket.emit("logInfo", {"id":myID})
 	console.log('ligou-se um cliente');
+
+	socket.on("login", function (data) {
+		console.log('ligou-se o cliente '+ myID +' com o nome '+ data.login);
+	})
+
 });
+
 
 app.get('/',function(req,res) {
   res.send('ola mundo');

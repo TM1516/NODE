@@ -5,13 +5,33 @@
     <title></title>
     <link rel="stylesheet" href="cliente.css" media="screen" title="no title" charset="utf-8">
     <script src="/socket.io/socket.io.js"></script>
+    <script src="js/jquery-2.2.1.js"></script>
 
   </head>
   <body>
-    <h1 id="idclient">eu sou o cliente</h1>
+    <h1 id="idclient">eu sou um cliente</h1>
+  <div id="divlogin">
+    <input id="login" type="text" placeholder="insira um nickname"/>
+    <button id="blog"> Enviar </button>
+  </div>
+
   </body>
   <script type="text/javascript">
+    $("#divlogin").hide();
+
+
     var socket = io.connect();
+    // mensagem acknowledge da ligação ao servidor
+    socket.on("connect", function () {
+      $("#divlogin").show();
+      $("#blog").click(function () {
+        var nick = $("#login").val();
+        if (nick.length != 0) {
+          socket.emit("login", {"login":nick});
+        }
+      })
+    });
+
     socket.on("logInfo", function (data) {
       document.getElementById("idclient").innerHTML += " " + data.id;
     })
