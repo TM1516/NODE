@@ -15,10 +15,18 @@
     <button id="blog"> Enviar </button>
   </div>
 
+  <div id="divchat">
+    <input id="msg" type="text" placeholder="insira uma mensagem"/>
+    <button id="bchat"> Enviar </button>
+  </div>
+
+
   </body>
   <script type="text/javascript">
     $("#divlogin").hide();
-
+    $("#divchat").hide();
+    var myNick;
+    var myID;
 
     var socket = io.connect();
     // mensagem acknowledge da ligação ao servidor
@@ -29,7 +37,21 @@
         if (nick.length != 0) {
           socket.emit("login", {"login":nick});
         }
-      })
+      });
+    });
+    socket.on("user", function(data) {
+      myNick = data.user;
+      myID = data.userid;
+      $("#divchat").show();
+      $("#divlogin").hide();
+      $("#bchat").click(function () {
+        var msg = $("#msg").val();
+        //alert(msg.length);
+        if (msg.length != 0) {
+          //alert("ola");
+          socket.emit("message", {"msg":msg, "user":myNick});
+        }
+      });
     });
 
     socket.on("logInfo", function (data) {

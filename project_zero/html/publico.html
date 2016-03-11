@@ -8,12 +8,19 @@
     <script src="js/jquery-2.2.1.js"></script>
   </head>
   <body>
-    <h1 id="idclient">eu sou o cliente</h1>
+    <h1 id="idclient">eu sou o publico</h1>
   </body>
   <script type="text/javascript">
     var socket = io.connect();
-    socket.on("logInfo", function (data) {
-      document.getElementById("idclient").innerHTML += " " + data.id;
+    socket.on("connect", function (data) {
+      socket.emit("publico");
+    });
+    socket.on("user", function (data) {
+      $("body").append($("<h3/>").html(data.user));
+    })
+    socket.on("message", function (data) {
+      msgtext = data.user + ":" + data.msg;
+      $("body").append($("<h3/>").html(msgtext));
     })
 
   </script>
